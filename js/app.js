@@ -53,6 +53,7 @@ function doLogin() {
   }
   userName = name;
   localStorage.setItem("nba_user", name);
+  sb.from("nba_usuarios").upsert({ nombre: name }, { onConflict: "nombre" }).then(() => {});
   showApp();
   initApp();
 }
@@ -183,16 +184,23 @@ function totalFromReal() {
 }
 
 async function recalcAll() {
-  const { data: preds } = await sb.from("nba_predicciones")
-    .select("user_id, key, value").eq("game_id", GID);
+  const [{ data: preds }, { data: users }] = await Promise.all([
+    sb.from("nba_predicciones").select("user_id, key, value").eq("game_id", GID),
+    sb.from("nba_usuarios").select("nombre"),
+  ]);
   const byUser = {};
   (preds || []).forEach(r => {
     (byUser[r.user_id] ??= {})[r.key] = r.value;
   });
   allScores = {};
+  // Incluir TODOS los usuarios registrados (incluso sin predicciones)
+  (users || []).forEach(u => {
+    const p = byUser[u.nombre] || {};
+    allScores[u.nombre] = { ...calcScore(p), nombre: u.nombre, uid: u.nombre };
+  });
+  // Usuarios con predicciones que no están en la tabla
   for (const [uid, p] of Object.entries(byUser)) {
-    const s = calcScore(p);
-    allScores[uid] = { ...s, nombre: uid, uid };
+    if (!allScores[uid]) allScores[uid] = { ...calcScore(p), nombre: uid, uid };
   }
   if (userName && !allScores[userName]) {
     allScores[userName] = { ...calcScore(myPred), nombre: userName, uid: userName };
