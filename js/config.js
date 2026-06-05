@@ -22,7 +22,7 @@ const NBA_GAME = {
 
 // Emails con permisos de admin (configuran partido y cargan resultados)
 const NBA_CONFIG = {
-  admins: ["pablocrovetto87@gmail.com"],
+  admins: ["pablo", "Pablo"],
 };
 
 // ----- Sistema de puntuación -----

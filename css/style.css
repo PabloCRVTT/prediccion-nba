@@ -57,13 +57,12 @@ body {
   border: 1px solid var(--borde);
 }
 
-/* Auth */
-#auth-page {
+/* Login */
+#login-page {
   min-height: 100vh; display: none; align-items: center; justify-content: center;
   padding: 20px;
   background: radial-gradient(circle at 50% 0%, #232838, #0f1116 70%);
 }
-#auth-page.active { display: flex; }
 .auth-card {
   background: var(--card); border: 1px solid var(--borde);
   border-radius: 20px; padding: 36px; width: 100%; max-width: 420px;
