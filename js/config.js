@@ -13,9 +13,9 @@ const NBA_GAME = {
   fecha: "Sábado 6 de junio, 2026",
   hora: "21:00",
   // ESPN usa fecha YYYYMMDD para buscar resultados automáticos
-  espnDate: "20260606",
-  local:     { nombre: "New York Knicks",   abbr: "NYK", emoji: "🗽", color: "#006bb6" },
-  visitante: { nombre: "San Antonio Spurs", abbr: "SAS", emoji: "⭐", color: "#000000" },
+  espnDate: "20260605",
+  local:     { nombre: "New York Knicks",   abbr: "NY", emoji: "🗽", color: "#006bb6" },
+  visitante: { nombre: "San Antonio Spurs", abbr: "SA", emoji: "⭐", color: "#000000" },
   // Cierre de predicciones (antes del salto inicial)
   cierre: "2026-06-06T21:00:00",
 };
