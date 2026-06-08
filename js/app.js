@@ -244,8 +244,9 @@ function renderQuarterTable(cerrado) {
   const tp = totalFromPred(myPred), tr = totalFromReal();
   const dis = cerrado ? "disabled" : "";
 
+  const shortName = (t) => t.abbr || t.nombre.split(' ').pop();
   const row = (lado, team) => `<tr>
-    <td class="team-cell">${team.emoji} ${team.nombre}</td>
+    <td class="team-cell">${team.emoji} ${shortName(team)}</td>
     ${QUARTERS.map(q => `<td><input type="number" min="0" max="99" class="q-input"
       id="in-${q}_${lado}" value="${myPred[`${q}_${lado}`] ?? ""}" ${dis}></td>`).join("")}
     <td class="q-total">${tp ? (lado === "local" ? tp.local : tp.visit) : "–"}</td>
@@ -259,10 +260,10 @@ function renderQuarterTable(cerrado) {
     ${QUARTERS.map(q => `<td class="q-real">${realRes[`${q}_visit`] ?? "–"}</td>`).join("")}
     <td class="q-real">${tr.visit}</td></tr>` : "";
 
-  return `<table class="q-table">
+  return `<div class="q-scroll"><table class="q-table">
     <thead><tr><th></th>${QUARTERS.map(q => `<th>${q.toUpperCase()}</th>`).join("")}<th>Total</th></tr></thead>
     <tbody>${row("local", L)}${row("visit", V)}${realRows}</tbody>
-  </table>`;
+  </table></div>`;
 }
 
 async function guardarCuartos() {
@@ -328,7 +329,7 @@ async function renderRanking() {
   <h2 class="section-title">🏅 Clasificación</h2>
   <div class="card">${!sorted.length
     ? '<div class="empty-state"><div class="icon">🏅</div><p>Aún no hay participantes</p></div>'
-    : `<table class="ranking-table">
+    : `<div class="ranking-scroll"><table class="ranking-table">
       <thead><tr><th>#</th><th>Participante</th><th style="text-align:right">Pts</th><th style="text-align:right">Ganador</th><th style="text-align:right">Cuartos</th></tr></thead>
       <tbody>${sorted.map((s, i) => {
         const pos = i + 1, yo = s.uid === userName;
@@ -340,7 +341,7 @@ async function renderRanking() {
           <td style="text-align:right;color:var(--texto-suave)">${s.ganador || 0}</td>
           <td style="text-align:right;color:var(--texto-suave)">${s.cuartos || 0}</td>
         </tr>`;
-      }).join("")}</tbody></table>`}
+      }).join("")}</tbody></table></div>`}
   </div>`;
 }
 
